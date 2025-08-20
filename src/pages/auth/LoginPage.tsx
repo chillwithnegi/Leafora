@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Leaf, Eye, EyeOff, AlertCircle } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
 
@@ -12,11 +12,8 @@ const LoginPage: React.FC = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const { login } = useAuthStore();
+  const { login, profile } = useAuthStore();
   const navigate = useNavigate();
-  const location = useLocation();
-
-  const from = location.state?.from?.pathname || '/';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,7 +23,12 @@ const LoginPage: React.FC = () => {
     try {
       const result = await login(formData.email, formData.password);
       if (result.success) {
-        navigate(from, { replace: true });
+        // Navigate based on user role
+        if (profile?.role === 'admin') {
+          navigate('/admin');
+        } else {
+          navigate('/dashboard');
+        }
       } else {
         setError(result.message);
       }
@@ -166,16 +168,10 @@ const LoginPage: React.FC = () => {
 
             <div className="mt-6 grid grid-cols-1 gap-3">
               <button
-                onClick={() => setFormData({ email: 'admin@leafora.com', password: 'password' })}
+                onClick={() => setFormData({ email: 'admin@leafora.com', password: 'admin123' })}
                 className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
               >
                 Admin Demo
-              </button>
-              <button
-                onClick={() => setFormData({ email: 'sarah@example.com', password: 'password' })}
-                className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
-              >
-                Seller Demo
               </button>
             </div>
           </div>

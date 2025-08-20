@@ -9,7 +9,7 @@ const Header: React.FC = () => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   
-  const { user, isAuthenticated, currentMode, logout, switchMode } = useAuthStore();
+  const { profile, isAuthenticated, currentMode, logout, switchMode } = useAuthStore();
   const { setSearchQuery: setStoreSearchQuery, categories } = useServiceStore();
   const navigate = useNavigate();
 
@@ -82,7 +82,7 @@ const Header: React.FC = () => {
             ) : (
               <div className="flex items-center space-x-4">
                 {/* Mode Switch for Sellers */}
-                {user?.role === 'seller' && (
+                {profile?.role === 'seller' && (
                   <div className="flex bg-gray-100 rounded-lg p-1">
                     <button
                       onClick={() => switchMode('buyer')}
@@ -122,7 +122,7 @@ const Header: React.FC = () => {
                 </Link>
 
                 {/* Become a Seller Button */}
-                {user?.role === 'buyer' && (
+                {profile?.role === 'buyer' && (
                   <Link
                     to="/become-seller"
                     className="bg-green-100 text-green-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-200 transition-colors"
@@ -137,10 +137,10 @@ const Header: React.FC = () => {
                     onClick={() => setIsProfileOpen(!isProfileOpen)}
                     className="flex items-center space-x-2 p-2 hover:bg-gray-100 rounded-lg transition-colors"
                   >
-                    {user?.profilePic ? (
+                    {profile?.profile_pic ? (
                       <img
-                        src={user.profilePic}
-                        alt={user.name}
+                        src={profile.profile_pic}
+                        alt={profile.name}
                         className="h-8 w-8 rounded-full object-cover"
                       />
                     ) : (
@@ -153,8 +153,8 @@ const Header: React.FC = () => {
                   {isProfileOpen && (
                     <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2">
                       <div className="px-4 py-2 border-b border-gray-100">
-                        <p className="font-medium text-gray-900">{user?.name}</p>
-                        <p className="text-sm text-gray-600">{user?.email}</p>
+                        <p className="font-medium text-gray-900">{profile?.name}</p>
+                        <p className="text-sm text-gray-600">{profile?.email}</p>
                       </div>
                       
                       <Link

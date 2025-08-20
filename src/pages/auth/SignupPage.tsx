@@ -64,7 +64,9 @@ const SignupPage: React.FC = () => {
     try {
       const result = await signup(formData.name, formData.email, formData.password);
       if (result.success) {
-        navigate('/dashboard');
+        // Show success message and redirect to login
+        alert('Account created successfully! Please check your email to verify your account.');
+        navigate('/login');
       } else {
         setErrors({ general: result.message });
       }
