@@ -158,8 +158,7 @@ export const useAuthStore = create<AuthState>()(
           }
 
           if (data.user) {
-            // Profile will be created automatically via trigger
-            return { success: true, message: 'Account created successfully' };
+            return { success: true, message: 'Account created successfully! You can now login.' };
           }
 
           return { success: false, message: 'Signup failed' };

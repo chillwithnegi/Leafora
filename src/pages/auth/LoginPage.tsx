@@ -168,10 +168,16 @@ const LoginPage: React.FC = () => {
 
             <div className="mt-6 grid grid-cols-1 gap-3">
               <button
-                onClick={() => setFormData({ email: 'admin@leafora.com', password: 'admin123' })}
+                onClick={() => setFormData({ email: 'admin@leafora.com', password: 'leafora123' })}
                 className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
               >
                 Admin Demo
+              </button>
+              <button
+                onClick={() => setFormData({ email: 'sarah@example.com', password: 'password' })}
+                className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+              >
+                Seller Demo
               </button>
             </div>
           </div>

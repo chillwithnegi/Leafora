@@ -4,10 +4,29 @@ const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
 if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error('Missing Supabase environment variables');
+  throw new Error('Missing Supabase environment variables. Please connect to Supabase first.');
 }
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
+// Helper function to get current user ID
+export const getCurrentUserId = () => {
+  return supabase.auth.getUser().then(({ data: { user } }) => user?.id);
+};
+
+// Helper function to check if user is admin
+export const isAdmin = async () => {
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return false;
+  
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .single();
+    
+  return profile?.role === 'admin';
+};
 
 // Database types
 export interface Database {
